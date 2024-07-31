@@ -78,3 +78,68 @@ void ParticleEmitter::createParticles() const
         m_particleSystem->create(*this);
     }
 }
+
+
+void ParticleEmitter::clearParticles() const
+{
+    if (m_particleSystem != nullptr)
+    {
+        m_particleSystem->removeByEmitter(*this);
+    }
+}
+
+
+void ParticleEmitter::setParticleCount(int count)
+{
+    m_particleCount = count;
+}
+
+
+int ParticleEmitter::getParticleCount() const
+{
+    return m_particleCount;
+}
+
+
+void ParticleEmitter::setSpawnArea(const sf::FloatRect& rect)
+{
+    m_spawnArea = rect;
+}
+
+
+void ParticleEmitter::setSpawnPosition(const sf::Vector2f& position)
+{
+    m_spawnArea = {position.x, position.y, 0, 0};
+}
+
+
+sf::Vector2f ParticleEmitter::getSpawnPosition() const
+{
+    return sf::Vector2f(
+        math::rand(m_spawnArea.left, m_spawnArea.left + m_spawnArea.width),
+        math::rand(m_spawnArea.top, m_spawnArea.top + m_spawnArea.height));
+}
+
+
+float ParticleEmitter::getParticleAngle() const
+{
+    return math::rand(m_angle - m_angleVariation, m_angle + m_angleVariation);
+}
+
+
+float ParticleEmitter::getParticleSpeed() const
+{
+    return math::rand(m_speed - m_speedVariation, m_speed + m_speedVariation);
+}
+
+
+void ParticleEmitter::setTextureRect(const sf::IntRect& rect)
+{
+    m_textureRect = rect;
+}
+
+
+const sf::IntRect& ParticleEmitter::getTextureRect() const
+{
+    return m_textureRect;
+}
