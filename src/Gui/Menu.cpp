@@ -38,7 +38,17 @@ void Menu::onEvent(const sf::Event& event)
         onMouseWheelMoved(event.mouseWheel.delta);
         break;
 
+    case sf::Event::KeyPressed:
+        onKeyPressed(event.key.code);
+        break;
 
+    case sf::Event::KeyReleased:
+        onKeyReleased(event.key.code);
+        break;
+
+    case sf::Event::TextEntered:
+        onTextEntered(event.text.unicode);
+        break;
 
     default:
         break;
@@ -59,6 +69,7 @@ void Menu::setCursor(sf::Cursor::Type cursorType)
     if (cursorType != m_cursorType)
     {
         gui::Theme::cursor.loadFromSystem(cursorType);
-        m_window.setMouseCursor
+        m_window.setMouseCursor(gui::Theme::cursor);
+        m_cursorType = cursorType;
     }
 }

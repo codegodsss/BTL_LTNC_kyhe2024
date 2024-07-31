@@ -2,7 +2,7 @@
 #define GUI_WIDGET_HPP
 
 #include <SFML/Graphics.hpp>
-
+#include <functional>
 
 namespace gui
 {
@@ -28,14 +28,14 @@ public:
      * Widget's position
      */
     void setPosition(const sf::Vector2f& pos);
-    
-     const;
+    void setPosition(float x, float y);
+    const sf::Vector2f& getPosition() const;
 
     /**
      * Widget's dimensions
      */
     void setSize(const sf::Vector2f& size);
-    void setSize(float high, float widget);
+    void setSize(float widget, float height);
     const sf::Vector2f& getSize() const;
 
     /**
@@ -62,10 +62,14 @@ public:
 
     virtual void onStateChanged(State state) { (void) state; }
     virtual void onMouseEnter() {}
+    virtual void onMouseLeave() {}
     virtual void onMouseMoved(const sf::Vector2f& pos) { (void) pos; }
     virtual void onMousePressed(const sf::Vector2f& pos) { (void) pos; }
+    virtual void onMouseReleased(const sf::Vector2f& pos) { (void) pos; }
     virtual void onMouseWheelMoved(int delta) { (void) delta; }
-  
+    virtual void onKeyPressed(sf::Keyboard::Key key) { (void) key; }
+    virtual void onKeyReleased(sf::Keyboard::Key key) { (void) key; }
+    virtual void onTextEntered(sf::Uint32 unicode) { (void) unicode; }
 
 protected:
     friend class Layout;
@@ -84,12 +88,16 @@ protected:
 
     void setState(State state);
 
+    State getState() const;
+
+    const sf::Transform& getTransform() const;
+
     /**
      * Set the widget's container (parent)
      */
     void setParent(Layout* parent);
 
-    
+    virtual Layout* toLayout() { return nullptr; }
 
     virtual void setCursor(sf::Cursor::Type cursorType);
 
@@ -98,7 +106,8 @@ private:
 
     Layout* m_parent;
     Widget* m_previous;
-   
+    Widget* m_next;
+    State m_state;
     sf::Vector2f m_position;
     sf::Vector2f m_size;
     sf::Transform m_transform;
