@@ -1,6 +1,10 @@
 #include "Ball.hpp"
 #include "Brick.hpp"
+#include "Context.hpp"
 
+#include "Core/Effect.hpp"
+#include "Core/SoundSystem.hpp"
+#include "Utils/Math.hpp"
 
 // When hitting the pad, the ball bounces from PADDLE_ANGLE to 90 + PADDLE_ANGLE
 #define PADDLE_ANGLE 30 // degrees
@@ -52,3 +56,38 @@ void Ball::unstick()
 }
 
 
+void Ball::enablePowerBall()
+{
+    m_powerHits = POWER_BALL_COUNT;
+    setTextureRect({8, 0, 8, 8});
+    m_emitter.setParticleColor(sf::Color::Cyan, sf::Color(0, 0, 255, 0));
+}
+
+
+void Ball::resetSpeed()
+{
+    m_velocity = BALL_START_SPEED;
+}
+
+
+void Ball::createParticles()
+{
+    m_emitter.setSpawnPosition(getCenter());
+    m_emitter.createParticles();
+}
+
+
+void Ball::onUpdate(float frametime)
+{
+    if (m_gluedTo == nullptr)
+    {
+        float delta = m_velocity * frametime;
+        move(delta * std::cos(m_angle), -delta * std::sin(m_angle));
+    }
+    else
+    {
+        // Stick to the paddle
+        setX(m_gluedTo->getX() - m_gluedAt);
+    }
+    m_emitter.setSpawnPosition(getCenter());
+}
