@@ -1,4 +1,4 @@
-
+#include <fstream>
 #include <iostream>
 
 #include "IniParser.hpp"
@@ -54,6 +54,18 @@ bool IniParser::load(const char* filename)
                     line = line.substr(1, index - 1);
                     section = &sections_[line];
                 }
+                else if (section != NULL)
+                {
+                    size_t index = line.find(TOKEN_SEPARATOR);
+                    if (index != std::string::npos)
+                    {
+                        // Store key:value in the current section
+                        std::string key = line.substr(0, index);
+                        trim_string(key);
+                        std::string value = line.substr(index + 1);
+                        trim_string(value);
+                        (*section)[key] = value;
+                    }
                     else
                     {
                         std::cerr << "[IniParser] line '" << line << "' ignored: missing '" << TOKEN_SEPARATOR << "' token" << std::endl;
@@ -68,7 +80,8 @@ bool IniParser::load(const char* filename)
         file.close();
         return true;
     }
-
+    std::cerr << "[IniParser] cannot open file: " << filename << std::endl;
+    return false;
 }
 
 
@@ -103,6 +116,10 @@ bool IniParser::save(const char* filename) const
 }
 
 
+void IniParser::seek_section(const std::string& section_name)
+{
+    cursor_ = &sections_[section_name];
+}
 
 
 const std::string& IniParser::get(const std::string& key, const std::string& default_value) const
