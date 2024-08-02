@@ -31,6 +31,8 @@ LevelManager::~LevelManager()
     if (m_level_file.is_open())
         m_level_file.close();
 }
+
+
 bool LevelManager::openFromFile(const std::string& filename)
 {
     m_level_file.open(filename, std::ios::in | std::ios::out | std::ios::binary);
@@ -111,4 +113,110 @@ int LevelManager::loadNext()
 #endif
 
     return m_brick_count;
+}
+
+
+void LevelManager::save()
+{
+    std::cout << "* save levels to file" << std::endl;
+    // Set stream cursor before current level
+    m_level_file.seekp(LEVEL_BYTES * (m_current_level - 1));
+    for (int i = 0; i < NB_BRICK_LINES; ++i)
+    {
+        for (int j = 0; j < NB_BRICK_COLS; ++j)
+        {
+            Brick& brick = m_bricks[i][j];
+            m_level_file.put(brick.getType());
+        }
+        m_level_file.put('\n');
+    }
+}
+
+
+size_t LevelManager::append()
+{
+    // Create an empty level
+    for (int i = 0; i < NB_BRICK_LINES; ++i)
+        for (int j = 0; j < NB_BRICK_COLS; ++j)
+            m_bricks[i][j].setType(Brick::NONE);
+
+    // Save it at the end of the file
+    m_current_level = ++m_level_count;
+    save();
+    return m_current_level;
+}
+
+
+size_t LevelManager::getCurrentLevel() const
+{
+    return m_current_level;
+}
+
+
+Brick& LevelManager::getBrick(int i, int j)
+{
+    return m_bricks[i][j];
+}
+
+
+size_t LevelManager::getLevelCount() const
+{
+    return m_level_count;
+}
+
+
+size_t LevelManager::getBrickCount() const
+{
+    return m_brick_count;
+}
+
+
+void LevelManager::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+    states.transform *= getTransform();
+
+    // Cast borders shadow
+    sf::Vertex shadow[4];
+    for (int i = 0; i < 4; ++i)
+        shadow[i].color = sf::Color::Black;
+
+    const float width = NB_BRICK_COLS * Brick::WIDTH;
+    const float height = NB_BRICK_LINES * Brick::HEIGHT;
+
+    // Vertical top border
+    shadow[1].position = {BORDER_SIZE / 2.f, 0};
+    shadow[2].position = {BORDER_SIZE / 2.f, height};
+    shadow[3].position = {0, height};
+    target.draw(shadow, 4, sf::Quads, states);
+
+    // Horizontal left border
+    shadow[0].position = {BORDER_SIZE / 2.f, 0};
+    shadow[1].position = {width, 0};
+    shadow[2].position = {width, BORDER_SIZE / 2.f};
+    shadow[3].position = {BORDER_SIZE / 2.f, BORDER_SIZE / 2.f};
+    target.draw(shadow, 4, sf::Quads, states);
+
+    // Draw bricks
+    for (int i = 0; i < NB_BRICK_LINES; ++i)
+    {
+        for (int j = 0; j < NB_BRICK_COLS; ++j)
+        {
+            const Brick& brick = m_bricks[i][j];
+            if (brick.isActive())
+            {
+                // Cast brick shadow
+                for (int k = 0; k < 4; ++k)
+                    shadow[k].position = brick.getPosition() + sf::Vector2f(3, 3);
+
+                shadow[1].position.x += Brick::WIDTH;
+                shadow[2].position.x += Brick::WIDTH;
+                shadow[2].position.y += Brick::HEIGHT;
+                shadow[3].position.y += Brick::HEIGHT;
+                target.draw(shadow, 4, sf::Quads, states);
+            }
+
+            if (brick.getType() != Brick::NONE)
+                target.draw(brick, states);
+        }
+    }
 }
