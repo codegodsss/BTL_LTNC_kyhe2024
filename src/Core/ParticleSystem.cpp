@@ -1,7 +1,6 @@
 #include "ParticleSystem.hpp"
 #include "ParticleEmitter.hpp"
 #include "Utils/Math.hpp"
-#include "__stddef_max_align_t.h"
 
 
 ParticleSystem::ParticleSystem():
@@ -64,15 +63,13 @@ void ParticleSystem::update(float frametime)
             sf::Vertex vertices[4];
             const sf::IntRect& r = p.emitter.getTextureRect();
 
-            
+            vertices[0].texCoords = sf::Vector2f(r.left, r.top);
             vertices[1].texCoords = sf::Vector2f(r.left, r.top + r.height);
             vertices[2].texCoords = sf::Vector2f(r.left + r.width, r.top + r.height);
-            
+            vertices[3].texCoords = sf::Vector2f(r.left + r.width, r.top);
 
             vertices[0].position = sf::Vector2f(p.position.x, p.position.y);
             vertices[1].position = sf::Vector2f(p.position.x, p.position.y + r.height);
-            vertices[0].texCoords = sf::Vector2f(r.left, r.top);
-            vertices[0].texCoords = sf::Vector2f(r.left, r.top);
             vertices[2].position = sf::Vector2f(p.position.x + r.width, p.position.y + r.height);
             vertices[3].position = sf::Vector2f(p.position.x + r.width, p.position.y);
 
@@ -85,4 +82,54 @@ void ParticleSystem::update(float frametime)
             ++it;
         }
     }
+}
+
+
+void ParticleSystem::clear()
+{
+    m_particles.clear();
+}
+
+
+void ParticleSystem::setTexture(const sf::Texture* texture)
+{
+    m_texture = texture;
+}
+
+
+void ParticleSystem::removeByEmitter(const ParticleEmitter& emitter)
+{
+    for (ParticleList::iterator it = m_particles.begin(); it != m_particles.end();)
+    {
+        if (&(it->emitter) == &emitter)
+            it = m_particles.erase(it);
+        else
+            ++it;
+    }
+}
+
+
+void ParticleSystem::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+    states.texture = m_texture;
+    target.draw(m_vertices, states);
+}
+
+
+ParticleSystem::Particle::Particle(const ParticleEmitter& e):
+    emitter(e),
+    position(e.getSpawnPosition()),
+    color(e.m_startColor),
+    lifespan(math::rand(0.f, e.m_timeToLive))
+{
+    remaining_time = lifespan;
+
+    // Compute velocity
+    float angle = e.getParticleAngle();
+    float speed = e.getParticleSpeed();
+    velocity.x = speed * std::cos(angle);
+    velocity.y = speed * -std::sin(angle);
+
+    position.x -= e.getTextureRect().width / 2;
+    position.y -= e.getTextureRect().height / 2;
 }
