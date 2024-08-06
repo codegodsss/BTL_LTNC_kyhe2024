@@ -21,8 +21,6 @@ Editor::Editor():
     for (int i = 1; i < LevelManager::NB_BRICK_LINES; ++i)
     {
         m_gridLines[i * 2].color = gridColor;
-        
-        m_gridLines[i * 2 + 1].color = gridColor;
         m_gridLines[i * 2].position = sf::Vector2f(0.5, Brick::HEIGHT * i - 0.5);
     }
 

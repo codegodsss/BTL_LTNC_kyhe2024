@@ -25,10 +25,6 @@ public:
      */
     void unstick();
 
-    void enablePowerBall();
-
-    void resetSpeed();
-
     void createParticles();
 
     // callbacks ---------------------------------------------------------------

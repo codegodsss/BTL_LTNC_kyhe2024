@@ -19,7 +19,6 @@ public:
 
     void setBrickCount(int bricks);
 
-    void setScore(int score);
 
     void setHighscore(int highscore);
 

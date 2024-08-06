@@ -5,13 +5,6 @@ namespace gui
 {
 
 template <class T>
-Box<T>::Box():
-    m_pressed(false)
-{
-    setBodyColor(Theme::backgroundColor);
-    setTopLeftBorderColor(Theme::topBorderColor);
-    setBottomRightBorderColor(Theme::bottomBorderColor);
-}
 
 
 template <class T>

@@ -27,14 +27,6 @@ Ball::Ball():
     setTexture(Resources::getTexture("balls.png"));
     setTextureRect({0, 0, 8, 8});
     ++s_instance_count;
-
-    m_emitter.setParticleCount(100);
-    m_emitter.setParticleColor(sf::Color::Red, sf::Color(255, 255, 0, 0));
-    m_emitter.setSpeed(10, 5);
-    m_emitter.setAngle(0, math::PI * 2);
-    m_emitter.setTimeToLive(1.f);
-    m_emitter.setLooping(true);
-    m_emitter.setParticleSystem(*Context::get().particles);
 }
 
 

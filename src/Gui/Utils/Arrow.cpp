@@ -15,12 +15,6 @@ Arrow::Arrow(float size, Direction direction)
 }
 
 
-void Arrow::build(float size, Direction direction)
-{
-    updateGeometry(0, 0, size, direction);
-}
-
-
 void Arrow::setColor(const sf::Color& color)
 {
     for (int i = 0; i < 3; ++i)
@@ -35,14 +29,11 @@ void Arrow::setPosition(float x, float y)
 }
 
 
-void Arrow::move(float dx, float dy)
+void Arrow::build(float size, Direction direction)
 {
-    for (int i = 0; i < 3; ++i)
-    {
-        m_triangle[i].position.x += dx;
-        m_triangle[i].position.y += dy;
-    }
+    updateGeometry(0, 0, size, direction);
 }
+
 
 
 sf::Vector2f Arrow::getSize() const

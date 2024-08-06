@@ -18,15 +18,7 @@ HUD::HUD():
     float x = (HUD::WIDTH - (iconSize.x + 1) * MAX_PLAYER_LIVES) / 2 + iconSize.x / 2;
     float y = m_lifeLabel.getY() + 20;
     for (int i = 0; i < MAX_PLAYER_LIVES; ++i)
-    {
-        m_lifeIcons[i].setTexture(texture);
-        m_lifeIcons[i].setPosition(x, y);
-        m_lifeIcons[i].setOrigin(iconSize.x / 2, iconSize.y / 2);
-        x += iconSize.x + 1;
-    }
-
-    m_level.setPosition(0, 60);
-    m_level.setLabel("Level");
+    
 
     m_bricks.setPosition(0, 100);
     m_bricks.setLabel("Bricks");
@@ -45,10 +37,7 @@ void HUD::setLevel(int level)
 }
 
 
-void HUD::setBrickCount(int bricks)
-{
-    m_bricks.setValue(bricks);
-}
+
 
 
 void HUD::setScore(int score)
@@ -104,9 +93,9 @@ HUD::Item::Item():
 }
 
 
-void HUD::Item::setPosition(float x, float y)
+void HUD::setBrickCount(int bricks)
 {
-    label.setPosition(x, y);
+    m_bricks.setValue(bricks);
 }
 
 

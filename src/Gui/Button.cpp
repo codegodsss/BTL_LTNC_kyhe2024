@@ -28,11 +28,6 @@ const sf::String& Button::getString() const
 }
 
 
-void Button::draw(sf::RenderTarget& target, sf::RenderStates states) const
-{
-    states.transform *= getTransform();
-    target.draw(m_box, states);
-}
 
 // callbacks -------------------------------------------------------------------
 
@@ -48,19 +43,6 @@ void Button::onMouseEnter()
 }
 
 
-void Button::onMouseLeave()
-{
-    setCursor(sf::Cursor::Arrow);
-}
-
-
-void Button::onMouseMoved(const sf::Vector2f&)
-{
-    if (isFocused() && sf::Mouse::isButtonPressed(sf::Mouse::Left))
-    {
-        m_box.press();
-    }
-}
 
 
 void Button::onMousePressed(const sf::Vector2f&)

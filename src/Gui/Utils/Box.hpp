@@ -20,9 +20,6 @@ public:
     /**
      * Get box position
      */
-    const sf::Vector2f& getPosition() const;
-
-    void setPosition(float x, float y);
 
 
     /**

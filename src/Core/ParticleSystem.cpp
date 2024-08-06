@@ -57,8 +57,6 @@ void ParticleSystem::update(float frametime)
             p.color.r = p.emitter.m_startColor.r + (elapsed * (p.emitter.m_endColor.r - p.emitter.m_startColor.r) / p.lifespan);
             p.color.g = p.emitter.m_startColor.g + (elapsed * (p.emitter.m_endColor.g - p.emitter.m_startColor.g) / p.lifespan);
             p.color.b = p.emitter.m_startColor.b + (elapsed * (p.emitter.m_endColor.b - p.emitter.m_startColor.b) / p.lifespan);
-            p.color.a = p.emitter.m_startColor.a + (elapsed * (p.emitter.m_endColor.a - p.emitter.m_startColor.a) / p.lifespan);
-
             // Build the vertices
             sf::Vertex vertices[4];
             const sf::IntRect& r = p.emitter.getTextureRect();
@@ -73,13 +71,6 @@ void ParticleSystem::update(float frametime)
             vertices[2].position = sf::Vector2f(p.position.x + r.width, p.position.y + r.height);
             vertices[3].position = sf::Vector2f(p.position.x + r.width, p.position.y);
 
-            for (int i = 0; i < 4; ++i)
-            {
-                vertices[i].color = p.color;
-                m_vertices.append(vertices[i]);
-            }
-
-            ++it;
         }
     }
 }

@@ -15,40 +15,12 @@ LevelManager& LevelManager::getInstance()
 }
 
 
-LevelManager::LevelManager():
-    m_current_level(0),
-    m_level_count(0)
-{
-    // Initialize bricks position
-    for (int i = 0; i < NB_BRICK_LINES; ++i)
-        for (int j = 0; j < NB_BRICK_COLS; ++j)
-            m_bricks[i][j].setPosition(j * Brick::WIDTH, i * Brick::HEIGHT);
-}
-
-
 LevelManager::~LevelManager()
 {
     if (m_level_file.is_open())
         m_level_file.close();
 }
 
-
-bool LevelManager::openFromFile(const std::string& filename)
-{
-    m_level_file.open(filename, std::ios::in | std::ios::out | std::ios::binary);
-    if (m_level_file)
-    {
-        // Number of levels = file size / size of one level
-        m_level_file.seekg(0, std::ifstream::end);
-        m_level_count = m_level_file.tellg() / LEVEL_BYTES;
-
-        // Restore cursor position
-        m_level_file.seekg(0);
-        return true;
-    }
-    std::cerr << "error while opening level file " << filename << std::endl;
-    return false;
-}
 
 
 int LevelManager::loadAt(size_t index)
@@ -113,23 +85,6 @@ int LevelManager::loadNext()
 #endif
 
     return m_brick_count;
-}
-
-
-void LevelManager::save()
-{
-    std::cout << "* save levels to file" << std::endl;
-    // Set stream cursor before current level
-    m_level_file.seekp(LEVEL_BYTES * (m_current_level - 1));
-    for (int i = 0; i < NB_BRICK_LINES; ++i)
-    {
-        for (int j = 0; j < NB_BRICK_COLS; ++j)
-        {
-            Brick& brick = m_bricks[i][j];
-            m_level_file.put(brick.getType());
-        }
-        m_level_file.put('\n');
-    }
 }
 
 
@@ -209,10 +164,8 @@ void LevelManager::draw(sf::RenderTarget& target, sf::RenderStates states) const
                     shadow[k].position = brick.getPosition() + sf::Vector2f(3, 3);
 
                 shadow[1].position.x += Brick::WIDTH;
-                shadow[2].position.x += Brick::WIDTH;
                 shadow[2].position.y += Brick::HEIGHT;
                 shadow[3].position.y += Brick::HEIGHT;
-                target.draw(shadow, 4, sf::Quads, states);
             }
 
             if (brick.getType() != Brick::NONE)

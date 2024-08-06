@@ -21,7 +21,6 @@ sf::Texture& Resources::getTexture(const std::string& name)
     TextureMap::iterator it = m_textures.find(name);
     if (it == m_textures.end())
     {
-        sf::Texture& texture = m_textures[name];
         texture.loadFromFile(m_path + "images/" + name);
         return texture;
     }

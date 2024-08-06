@@ -8,7 +8,6 @@
 
 MainMenu::MainMenu():
     m_background(Resources::getTexture("background.png")),
-    m_aboutText(gui::Theme::font),
     m_menu(Game::getInstance().getWindow())
 {
     m_title.setTexture(Resources::getTexture("title.png"));

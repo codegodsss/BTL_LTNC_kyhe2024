@@ -10,9 +10,6 @@
 BrickBanger::BrickBanger():
     m_width(LevelManager::NB_BRICK_COLS * Brick::WIDTH),
     m_height(LevelManager::NB_BRICK_LINES * Brick::HEIGHT),
-    m_level(LevelManager::getInstance()),
-    m_remainingBricks(0),
-    m_titleText(gui::Theme::font),
     m_score(0),
     m_status(READY),
 {
@@ -59,7 +56,6 @@ BrickBanger::BrickBanger():
 
     // States are stored in Game, therefore BrickBanger instance is unique and
     // context can be safely defined once in BrickBanger ctor
-    Context::get().BrickBanger = this;
     Context::get().particles = &m_particles;
 }
 

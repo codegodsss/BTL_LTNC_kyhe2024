@@ -17,9 +17,6 @@ public:
     void setTimeToLive(float duration);
     void setLooping(bool looping);
 
-    void setParticleColor(const sf::Color& color);
-    void setParticleColor(const sf::Color& start, const sf::Color& end);
-
     void setAngle(float angle, float variation = 0.f);
     void setSpeed(float speed, float variation = 0.f);
 
