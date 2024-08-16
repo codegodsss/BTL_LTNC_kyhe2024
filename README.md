@@ -97,7 +97,7 @@ Chứa tất cả các hình ảnh của game bao gồm cả font chữ, Bóng, 
 
 - Tham khảo các game, hướng dẫn làm game trên: "gamedevspot.net" - "https://www.youtube.com/watch?v=2Aix57fpRME&list=PLjJmj2FyqToa3kzYqusZxiVHfCg3dpOLu&index=1"
 
-- Tham khảo code hương bay và góc tiếp xúc của bóng: "https://www.youtube.com/watch?v=zYFV7jpaxec"
+- Tham khảo code hướng bay và góc tiếp xúc của bóng: "https://www.youtube.com/watch?v=zYFV7jpaxec"
 
 - Tham khảo hướng dẫn làm game sử dụng sfml: "https://www.youtube.com/watch?v=mdp9neFHXY8&list=PL8YBKOHPqM68Ia0LE590qq0w6jKR0fJvd&index=1"
 
