@@ -17,6 +17,19 @@ Layout::Layout(Type type):
 }
 
 
+Layout::~Layout()
+{
+    // Deallocate all widgets
+    const Widget* widget = m_first;
+    while (widget != nullptr)
+    {
+        const Widget* next = widget->m_next;
+        delete widget;
+        widget = next;
+    }
+}
+
+
 Layout* Layout::addLayout(Type type)
 {
     Layout* layout = new Layout(type);

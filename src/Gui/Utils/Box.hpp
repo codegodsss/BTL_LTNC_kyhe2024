@@ -20,6 +20,9 @@ public:
     /**
      * Get box position
      */
+    const sf::Vector2f& getPosition() const;
+
+    void setPosition(float x, float y);
 
 
     /**
@@ -47,7 +50,22 @@ public:
      * @return true if point is inside the box limits
      */
     bool containsPoint(const sf::Vector2f& pos) const;
-     
+
+    /**
+     * Apply "hovered" effect
+     */
+    void prelight();
+
+    /**
+     * Apply "pressed" effect
+     */
+    void press();
+
+    /**
+     * Remove applied effect
+     */
+    void release();
+
     void applyState(State state);
 
     /**

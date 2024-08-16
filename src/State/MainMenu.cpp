@@ -1,13 +1,14 @@
 #include "MainMenu.hpp"
-#include "Core/Config.hpp"
-#include "Core/Game.hpp"
-#include "Core/Resources.hpp"
-
+#include "../Core/Config.hpp"
+#include "../Core/Game.hpp"
+#include "../Core/Resources.hpp"
+#include "../Gui/Theme.hpp"
 
 #define ABOUT_TEXT (APP_TITLE " " APP_VERSION " - " APP_URL " (Built " __DATE__ ", " __TIME__ ")")
 
 MainMenu::MainMenu():
     m_background(Resources::getTexture("background.png")),
+    m_aboutText(gui::Theme::font),
     m_menu(Game::getInstance().getWindow())
 {
     m_title.setTexture(Resources::getTexture("title.png"));
@@ -18,17 +19,17 @@ MainMenu::MainMenu():
     m_aboutText.setPosition(0, APP_HEIGHT - m_aboutText.getSize().y);
     m_aboutText.setColor(gui::Theme::textColor);
 
-    m_menu.addButton("New game", []() { .setCurrentState("Wallbreaker"); });
-    m_menu.addButton("Editor", []() { setCurrentState("Editor"); });
-    m_menu.addButton("Options", []() { .setCurrentState("OptionsMenu"); });
-    m_menu.addButton("Quit", []() { .quit(); });
+    m_menu.addButton("New game", []() { Game::getInstance().setCurrentState("Wallbreaker"); });
+    m_menu.addButton("Editor", []() { Game::getInstance().setCurrentState("Editor"); });
+    m_menu.addButton("Options", []() { Game::getInstance().setCurrentState("OptionsMenu"); });
+    m_menu.addButton("Quit", []() { Game::getInstance().quit(); });
 
     // Center menu horizontally
     m_menu.setPosition((APP_WIDTH - m_menu.getSize().x) / 2, 100);
 
     m_emitter.setParticleColor({0x90, 0x50, 0x37});
     m_emitter.setLooping(true);
-   
+    m_emitter.setSpawnArea({0, 0, APP_WIDTH, APP_HEIGHT});
     m_emitter.setSpeed(10, 5);
     m_emitter.setTimeToLive(12);
     m_emitter.setParticleCount(150);
@@ -58,12 +59,13 @@ void MainMenu::update(float frametime)
     {
         m_aboutText.setPosition(APP_WIDTH, m_aboutText.getPosition().y);
     }
+    m_particles.update(frametime);
 }
 
 
 void MainMenu::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    
+    target.draw(m_background, states);
     target.draw(m_particles, states);
     target.draw(m_title, states);
     target.draw(m_aboutText, states);

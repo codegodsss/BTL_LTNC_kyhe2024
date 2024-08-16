@@ -1,9 +1,8 @@
 #ifndef PARTICLE_SYSTEM_HPP
 #define PARTICLE_SYSTEM_HPP
 
-#include <SFML/Audio.hpp>
-#include <SFML/Windows.hpp>
 #include <SFML/Graphics.hpp>
+#include <list>
 
 class ParticleEmitter;
 

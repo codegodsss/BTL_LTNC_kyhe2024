@@ -1,9 +1,10 @@
 #ifndef HUD_HPP
 #define HUD_HPP
 
-#include "Core/Config.hpp"
-#include "Gui/BitmapText.hpp"
+#include "../Core/Config.hpp"
+#include "../Gui/BitmapText.hpp"
 #include <SFML/Graphics.hpp>
+
 
 /**
  * Info panel
@@ -19,6 +20,7 @@ public:
 
     void setBrickCount(int bricks);
 
+    void setScore(int score);
 
     void setHighscore(int highscore);
 

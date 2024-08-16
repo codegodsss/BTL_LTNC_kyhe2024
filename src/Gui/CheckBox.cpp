@@ -16,6 +16,11 @@ CheckBox::CheckBox(bool checked):
 }
 
 
+bool CheckBox::isChecked() const
+{
+    return m_checked;
+}
+
 
 void CheckBox::check(bool checked)
 {

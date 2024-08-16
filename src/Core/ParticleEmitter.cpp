@@ -1,6 +1,6 @@
 #include "ParticleEmitter.hpp"
 #include "ParticleSystem.hpp"
-#include "Utils/Math.hpp"
+#include "../Utils/Math.hpp"
 
 
 ParticleEmitter::ParticleEmitter():
@@ -94,6 +94,19 @@ void ParticleEmitter::setParticleCount(int count)
     m_particleCount = count;
 }
 
+
+int ParticleEmitter::getParticleCount() const
+{
+    return m_particleCount;
+}
+
+
+void ParticleEmitter::setSpawnArea(const sf::FloatRect& rect)
+{
+    m_spawnArea = rect;
+}
+
+
 void ParticleEmitter::setSpawnPosition(const sf::Vector2f& position)
 {
     m_spawnArea = {position.x, position.y, 0, 0};
@@ -107,6 +120,11 @@ sf::Vector2f ParticleEmitter::getSpawnPosition() const
         math::rand(m_spawnArea.top, m_spawnArea.top + m_spawnArea.height));
 }
 
+
+float ParticleEmitter::getParticleAngle() const
+{
+    return math::rand(m_angle - m_angleVariation, m_angle + m_angleVariation);
+}
 
 
 float ParticleEmitter::getParticleSpeed() const

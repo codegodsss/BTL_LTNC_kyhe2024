@@ -2,9 +2,10 @@
 #define MAIN_MENU_HPP
 
 #include "State.hpp"
-#include "Core/ParticleSystem.hpp"
-#include "Core/ParticleEmitter.hpp"
-#include "Gui/BitmapText.hpp"
+#include "../Core/ParticleSystem.hpp"
+#include "../Core/ParticleEmitter.hpp"
+#include "../Gui/BitmapText.hpp"
+#include "../Gui/Menu.hpp"
 
 
 

@@ -3,14 +3,14 @@
 
 // Application hard-coded global properties
 
-#define APP_TITLE  "Wallbreaker"
+#define APP_TITLE  "Bricks Banger"
 #define APP_WIDTH  320
 #define APP_HEIGHT 240
 #define APP_FPS    60
 
-#define APP_AUTHOR  "Long"
-#define APP_VERSION "1"
-#define APP_URL     "https://github.com/codegodsss/BTL_LTNC_kyhe2024.git"
+#define APP_AUTHOR  "Do Hoang Long"
+#define APP_VERSION "2.0"
+#define APP_URL     "https://github.com/codegodsss/BTL_LTNC_kyhe2024"
 
 // Paths
 

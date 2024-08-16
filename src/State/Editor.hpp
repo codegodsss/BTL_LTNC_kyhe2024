@@ -1,8 +1,11 @@
 #ifndef EDITOR_HPP
 #define EDITOR_HPP
 
+#include "../Core/Config.hpp"
+#include "../Core/LevelManager.hpp"
+#include "../Entities/Brick.hpp"
+#include "../Gui/Menu.hpp"
 #include "State.hpp"
-#include "Core/Config.hpp"
 
 
 namespace gui
@@ -20,12 +23,24 @@ public:
 
     void onEvent(const sf::Event& event) override;
 
+    void onFocus() override;
+
 private:
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+
+    /**
+     * Update internal texture used for rendering current level
+     */
+    void updateTexture();
+
     /**
      * Turn the visual grid on/off
      */
     void toggleGrid();
+
+    /**
+     * Put or remove a brick at grid index
+     */
     void putBrick(const sf::Vector2i& index);
 
     void setCursorBrick(Brick::Type type);
@@ -34,6 +49,8 @@ private:
     static constexpr int m_height = LevelManager::NB_BRICK_LINES * Brick::HEIGHT;
 
     sf::Sprite        m_background;
+    LevelManager&     m_level;
+    Brick             m_cursor;
     bool              m_cursorOnBrick;
     sf::Vector2i      m_cursorCoords;
 

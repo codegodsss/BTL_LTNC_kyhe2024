@@ -2,7 +2,7 @@
 #define LEVEL_MANAGER_HPP
 
 #include "Config.hpp"
-#include "Entities/Brick.hpp"
+#include "../Entities/Brick.hpp"
 #include <fstream>
 
 class LevelManager: public sf::Drawable, public sf::Transformable, sf::NonCopyable

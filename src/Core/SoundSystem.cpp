@@ -1,6 +1,6 @@
 #include "SoundSystem.hpp"
 #include "Resources.hpp"
-#include "Utils/Math.hpp"
+#include "../Utils/Math.hpp"
 
 sf::Sound SoundSystem::m_sounds[MAX_SOUNDS];
 int SoundSystem::m_lastSoundPlayed = 0;
