@@ -1,8 +1,8 @@
 #ifndef BALL_HPP
 #define BALL_HPP
 
+#include "../Core/ParticleEmitter.hpp"
 #include "Entity.hpp"
-
 
 
 class Ball: public Entity
@@ -24,6 +24,10 @@ public:
      * Unstick ball if glued to a paddle
      */
     void unstick();
+
+    void enablePowerBall();
+
+    void resetSpeed();
 
     void createParticles();
 

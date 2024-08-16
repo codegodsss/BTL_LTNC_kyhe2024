@@ -7,7 +7,9 @@ Effect::ObjectList Effect::m_objects;
 void Effect::zoom(sf::Sprite& target, float factor, float duration)
 {
     Object::Data data;
-    data.zoom.final_scale = factor; sf::Uint8 delta = elapsed * 255 / it->duration; pushObject(data, ZOOM, target, duration);
+    data.zoom.final_scale = factor;
+    data.zoom.scale_per_sec = (factor - target.getScale().x) / duration;
+    pushObject(data, ZOOM, target, duration);
 }
 
 
@@ -36,6 +38,8 @@ void Effect::moveAndRevert(sf::Sprite& target, const sf::Vector2f& delta, float 
     Object::Data data;
     data.move.final_x = target.getPosition().x + delta.x;
     data.move.final_y = target.getPosition().y + delta.y;
+    data.move.x_per_sec = delta.x / duration;
+    data.move.y_per_sec = delta.y / duration;
     pushObject(data, MOVE_REVERT, target, duration);
 }
 
@@ -43,6 +47,7 @@ void Effect::moveAndRevert(sf::Sprite& target, const sf::Vector2f& delta, float 
 void Effect::rotate(sf::Sprite& target, float angle, float duration)
 {
     Object::Data data;
+    data.rotate.final_angle = target.getRotation() + angle;
     data.rotate.angle_per_sec = angle / duration;
     pushObject(data, ROTATE, target, duration);
 }
@@ -83,6 +88,8 @@ void Effect::update(float frametime)
             {
                 Object::Zoom& zoom = it->data.zoom;
                 zoom.scale_per_sec *= -1;
+                zoom.final_scale = zoom.final_scale + zoom.scale_per_sec * it->duration;
+                it->type = ZOOM;
                 it->createdAt.restart();
                 continue;
             }
@@ -106,6 +113,24 @@ void Effect::update(float frametime)
                 it->createdAt.restart();
                 continue;
             }
+            // When effect ends, make sure it reaches the actual final value
+            case ZOOM:
+                it->target.setScale(it->data.zoom.final_scale, it->data.zoom.final_scale);
+                break;
+            case MOVE:
+                it->target.setPosition(it->data.move.final_x, it->data.move.final_y);
+                break;
+            case ROTATE:
+                it->target.setRotation(it->data.rotate.final_angle);
+                break;
+            case FADE_IN:
+                it->target.setColor({255, 255, 255, 255});
+                break;
+            case FADE_OUT:
+                it->target.setColor({255, 255, 255, 0});
+                break;
+            }
+            it = m_objects.erase(it);
         }
         else
         {
@@ -126,7 +151,7 @@ void Effect::update(float frametime)
 
             case ROTATE:
             case ROTATE_REVERT:
-                 sf::Uint8 delta = elapsed * 255 / it->duration;
+                it->target.rotate(frametime * it->data.rotate.angle_per_sec);
                 break;
 
             case FADE_IN:
@@ -156,5 +181,5 @@ void Effect::stopAll()
 
 void Effect::pushObject(Object::Data& data, Type type, sf::Sprite& target, float duration)
 {
-    sf::Uint8 delta = elapsed * 255 / it->duration;
+    m_objects.push_back(Object(data, type, target, duration));
 }

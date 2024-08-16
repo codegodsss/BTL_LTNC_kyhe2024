@@ -1,4 +1,9 @@
 #include "Brick.hpp"
+#include "../Core/Effect.hpp"
+#include "../Core/Resources.hpp"
+#include "../Core/SoundSystem.hpp"
+#include "../Entities/Context.hpp"
+#include "../Utils/Math.hpp"
 
 
 
@@ -29,7 +34,9 @@ void Brick::setType(Type type)
         int x = (tile_id % 4) * Brick::WIDTH;
         int y = (tile_id / 4) * Brick::HEIGHT;
 
-
+        setTextureRect(sf::IntRect(x, y, Brick::WIDTH, Brick::HEIGHT));
+        setColor(sf::Color::White);
+        m_emitter.setParticleColor(getBaseColor());
     }
 }
 
@@ -66,7 +73,19 @@ bool Brick::takeDamage(bool force_destruction)
         break;
     }
 
+    if (force_destruction)
+    {
+        m_broken = true;
+    }
 
+    if (m_broken)
+    {
+        Effect::move(*this, {0, math::rand(20.f, 40.f)});
+        Effect::fadeOut(*this);
+        Effect::rotate(*this, math::rand(-60, 60));
+        Effect::zoom(*this, 0.5);
+        m_emitter.createParticles();
+    }
     return m_broken;
 }
 
@@ -83,6 +102,10 @@ sf::Color Brick::getBaseColor() const
 {
     switch (m_type - START)
     {
+    case 0: return sf::Color(0x2e, 0xcd, 0x71);
+    case 1: return sf::Color(0x1b, 0xbc, 0x9b);
+    case 2: return sf::Color(0x35, 0x98, 0xdb);
+    case 3: return sf::Color(0x9b, 0x58, 0xb5);
     case 4: return sf::Color(0xe2, 0x5d, 0xb5);
     case 5: return sf::Color(0xe8, 0x4c, 0x3d);
     case 6: return sf::Color(0xe7, 0x7e, 0x23);
