@@ -1,4 +1,4 @@
-
+![image](https://github.com/user-attachments/assets/456c188e-d5f5-47a5-bf6a-53485c4aa5fb)
 # Brick Banger
 - Giới Thiệu Game
 
@@ -20,6 +20,7 @@
 -  Nguồn tham khảo
 -  Sự khác biệt và cải tiến
  
+video demo: https://drive.google.com/drive/folders/10GsKn4xu0J3vrdTYiPpO7AGRUf-ciR6J?usp=drive_link
    
     
 
